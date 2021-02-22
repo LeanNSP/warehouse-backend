@@ -12,16 +12,19 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 
-const { NODE_MODE, PORT, CORS_URL } = require('./config');
+const { NODE_MODE, PORT, CORS_URL } = require('./config/env.keys');
+
+const connectMongoDB = require('./config/mongoDB');
 
 // connection to database
 // TODO:
+connectMongoDB();
 
 const app = express();
 
 // In development mode writes a log to the console
 if (NODE_MODE === 'development') {
-   app.use(logger('dev'));
+  app.use(logger('dev'));
 }
 
 // Body parser
@@ -40,8 +43,8 @@ app.use(xss());
 
 // Used to limit repeated requests
 const limiter = rateLimit({
-   windowMs: 15 * 60 * 1000, // 15 minutes
-   max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 
 app.use(limiter);
@@ -53,11 +56,11 @@ app.use(hpp());
 app.use(cors({ origin: `${CORS_URL}:${PORT}` }));
 
 const server = app.listen(PORT || 3300, () => {
-   console.log(`Server started in ${NODE_MODE} mode on port: ${PORT}`.black.bgWhite.bold);
+  console.log(`Server started in ${NODE_MODE} mode on port: ${PORT}`.black.bgWhite.bold);
 });
 
 process.on('unhandledRejection', (err, promise) => {
-   console.log(`Error: ${err.message}`.red);
-   // Close server & exit process
-   server.close(() => process.exit(1));
+  console.log(`Error: ${err.message}`.red);
+  // Close server & exit process
+  server.close(() => process.exit(1));
 });
