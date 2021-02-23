@@ -15,10 +15,11 @@ const cors = require('cors');
 const { NODE_MODE, PORT, CORS_URL } = require('./config/env.keys');
 
 const connectMongoDB = require('./config/mongoDB');
+const connectPostgresDB = require('./config/pgDB');
 
-// connection to database
-// TODO:
+// connection to databases
 connectMongoDB();
+connectPostgresDB();
 
 const app = express();
 
