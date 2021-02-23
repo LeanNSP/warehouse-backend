@@ -13,13 +13,9 @@ const connectMongoDB = async () => {
       useUnifiedTopology: true,
     });
 
-    if (connectDB) {
-      console.log(`MongoDB Connected: "${connectDB.connection.host}"`.white.bgGreen.bold);
-    }
+    console.log(`MongoDB Connected: "${connectDB.connection.host}"`.white.bgGreen.bold);
   } catch (error) {
-    const err = new Error('Not connect db');
-    err.code = 500;
-    return err;
+    console.log('Not connect mongo db'.white.bgRed.bold);
   }
 };
 
