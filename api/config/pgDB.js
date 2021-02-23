@@ -2,15 +2,19 @@
 
 const Sequelize = require('sequelize');
 
-const { PG_DB, PG_HOST, PG_PASS, PG_USER } = require('./env.keys');
+const { PG_URI } = require('./env.keys');
 
-const sequelize = new Sequelize({
-  host: PG_HOST, // host of the database
-  database: PG_DB, // name of the DB to connect
-  dialect: 'postgres', // DB dialect, one of 'mysql' | 'mariadb' | 'postgres' | 'mssql'
-  username: PG_USER, // DB user which will be used for connection to DB
-  password: PG_PASS, // DB user's password
-});
+// const { PG_DB, PG_HOST, PG_PASS, PG_USER } = require('./env.keys');
+
+// const sequelize = new Sequelize({
+//   host: PG_HOST, // host of the database
+//   database: PG_DB, // name of the DB to connect
+//   dialect: 'postgres', // DB dialect, one of 'mysql' | 'mariadb' | 'postgres' | 'mssql'
+//   username: PG_USER, // DB user which will be used for connection to DB
+//   password: PG_PASS, // DB user's password
+// });
+
+const sequelize = new Sequelize(PG_URI);
 
 const connectPostgresDB = async () => {
   try {
