@@ -17,6 +17,8 @@ const { NODE_MODE, PORT, CORS_URL } = require('./config/env.keys');
 const connectMongoDB = require('./config/mongoDB');
 const connectPostgresDB = require('./config/pgDB');
 
+const router = require('./router');
+
 // connection to databases
 connectMongoDB();
 connectPostgresDB();
@@ -55,6 +57,9 @@ app.use(hpp());
 
 // Enable CORS
 app.use(cors({ origin: `${CORS_URL}:${PORT}` }));
+
+// Router
+router(app);
 
 const server = app.listen(PORT || 3300, () => {
   console.log(`Server started in ${NODE_MODE} mode on port: ${PORT}`.black.bgWhite.bold);
